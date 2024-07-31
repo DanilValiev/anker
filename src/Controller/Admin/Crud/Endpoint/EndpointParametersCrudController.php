@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -21,14 +22,16 @@ class EndpointParametersCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addTab('Основное'),
             IdField::new('id')->hideOnForm(),
-            TextField::new('name')->setLabel('Имя')->setHelp('Ключ параметра, например в параметрах ?key=value "key" = это ключ параметра'),
-            BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли параметр'),
-            BooleanField::new('required')->setLabel('Обязательный')->setHelp('Обязательный параметр'),
-            ChoiceField::new('type')->setChoices(['Любой' => 'mixed', 'Строка' => 'string', 'Число' => 'int', 'Булевый' => 'bool'])->setLabel('Тип значения')->setHelp('Валидация на тип значения'),
-            CodeEditorField::new('regex')->setLabel('Регулярное выражение')->setHelp('Валидация по регулярному выражению'),
-            ArrayField::new('whitelist')->setLabel('Белый список')->setHelp('Белый список значений'),
-            ArrayField::new('errorMessage')->setLabel('Маппинг ошибок')->setHelp('Маппинг кодов ошибок с возвращаемыми ошибками'),
+            TextField::new('name')->setLabel('Имя')->setHelp('Ключ параметра, например в параметрах ?key=value "key" = это ключ параметра')->setColumns(7),
+            ChoiceField::new('type')->setChoices(['Любой' => 'mixed', 'Строка' => 'string', 'Число' => 'int', 'Булевый' => 'bool'])->setLabel('Тип значения')->setHelp('Валидация на тип значения')->setColumns(7),
+            BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли параметр')->setColumns(7),
+            FormField::addTab('Валидация'),
+            BooleanField::new('required')->setLabel('Обязательный')->setHelp('Обязательный параметр')->setColumns(7),
+            CodeEditorField::new('regex')->setLabel('Регулярное выражение')->setHelp('Валидация по регулярному выражению')->setColumns(7),
+            ArrayField::new('whitelist')->setLabel('Белый список')->setHelp('Белый список значений')->setColumns(7),
+            ArrayField::new('errorMessage')->setLabel('Маппинг ошибок')->setHelp('Маппинг кодов ошибок с возвращаемыми ошибками')->setColumns(7),
         ];
     }
 }

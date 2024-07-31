@@ -93,4 +93,9 @@ class EndpointData
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return "[{$this->getId()}] Exp: {{$this->expression}}";
+    }
 }

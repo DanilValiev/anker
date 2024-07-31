@@ -27,10 +27,10 @@ class Endpoint
     #[ORM\Column]
     private int $sleepTime = 0;
 
-    #[ORM\OneToMany(mappedBy: 'scopesEndpoints', targetEntity: EndpointParam::class)]
+    #[ORM\OneToMany(mappedBy: 'scopesEndpoints', targetEntity: EndpointParam::class, cascade: ['persist'])]
     private Collection $params;
 
-    #[ORM\OneToMany(mappedBy: 'scopesEndpoints', targetEntity: EndpointData::class)]
+    #[ORM\OneToMany(mappedBy: 'scopesEndpoints', targetEntity: EndpointData::class, cascade: ['persist'])]
     private Collection $data;
 
     #[ORM\ManyToOne(inversedBy: 'endpoints')]
@@ -164,5 +164,10 @@ class Endpoint
         $this->apiScopes = $apiScopes;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return "[{$this->methods}] /{$this->apiScopes->getSlug()}/" . $this->slug ?? 'Эндпойнт';
     }
 }

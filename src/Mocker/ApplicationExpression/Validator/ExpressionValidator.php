@@ -2,7 +2,7 @@
 
 namespace App\Mocker\ApplicationExpression\Validator;
 
-use App\Mocker\Exceptions\Expressions\InvalidExpressionStructureException;
+use App\Mocker\Exceptions\Variations\Expressions\InvalidExpressionStructureException;
 
 class ExpressionValidator
 {
@@ -26,9 +26,10 @@ class ExpressionValidator
                 return self::validate($tree[0], $data);
             }
 
-            $left = $tree[1] ?? null;
-            $operator = $tree[0] ?? null;
-            $right = $tree[2] ?? null;
+
+            $left = $tree['left'] ?? null;
+            $operator = $tree[1] ?? null;
+            $right = $tree['right'] ?? null;
 
             if ($left === null || $operator === null || $right === null) {
                 throw new InvalidExpressionStructureException('Invalid condition structure: ' . json_encode($tree));

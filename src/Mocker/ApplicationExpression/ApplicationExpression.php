@@ -4,7 +4,7 @@ namespace App\Mocker\ApplicationExpression;
 
 use App\Mocker\ApplicationExpression\Parser\ExpressionParser;
 use App\Mocker\ApplicationExpression\Validator\ExpressionValidator;
-use App\Mocker\Exceptions\Expressions\InvalidExpressionStructureException;
+use App\Mocker\Exceptions\Variations\Expressions\InvalidExpressionStructureException;
 
 class ApplicationExpression implements ApplicationExpressionInterface
 {

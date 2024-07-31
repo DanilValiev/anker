@@ -2,7 +2,7 @@
 
 namespace App\Mocker\ApplicationExpression\Parser;
 
-use App\Mocker\Exceptions\Expressions\InvalidExpressionStructureException;
+use App\Mocker\Exceptions\Variations\Expressions\InvalidExpressionStructureException;
 
 class ExpressionParser {
     private $tokens;
@@ -59,7 +59,11 @@ class ExpressionParser {
     private function buildTree($expressions): ?array
     {
         if (count($expressions) == 1) {
-            return $this->parseCondition($expressions[0]);
+            return [
+                'operator' => '&&',
+                'left' => $this->parseCondition($expressions[0]),
+                'right' => $this->parseCondition($expressions[0])
+            ];
         }
 
         $tree = null;
@@ -98,7 +102,11 @@ class ExpressionParser {
                 return $condition[0];
             }
 
-            return $condition;
+            return [
+                'left' => $condition[0],
+                1 => $condition[1],
+                'right' => $condition[2]
+            ];
         }
 
         preg_match('/(\w+)\s*(!=|=)\s*(\w+)/', implode(' ', $condition), $matches);

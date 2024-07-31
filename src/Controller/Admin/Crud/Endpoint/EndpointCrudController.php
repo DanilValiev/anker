@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -22,7 +23,8 @@ class EndpointCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $response = [
+        return [
+            FormField::addTab('Главное'),
             IdField::new('id')->hideOnForm(),
             TextField::new('slug')->setHelp('Префикс пути, Например test'),
             ChoiceField::new('methods')->setChoices([
@@ -30,17 +32,12 @@ class EndpointCrudController extends AbstractCrudController
                 'PUT' => 'PUT', 'PATCH' => 'PATCH', 'DELETE' => 'DELETE'
             ])->setEmptyData('ANY')->setHelp('Разрешенный http метод')->setLabel('HTTP Метод'),
             BooleanField::new('active')->setHelp('Доступен ли эндпойнт')->setLabel('Активен'),
-            IntegerField::new('sleepTime')->setHelp('Задержка в ответе, указывать в мс (допустим значение 1000 даст время ответа 1+ сек)')->setLabel('Задержка (мс)'),
-            CollectionField::new('params')->useEntryCrudForm(EndpointParametersCrudController::class)->setColumns(7)->setHelp('Параметры запроса')->setLabel('Параметры'),
-            CollectionField::new('data')->useEntryCrudForm(EndpointDataCrudController::class)->setColumns(7)->setHelp('Варианты ответов')->setLabel('Ответы'),
+            IntegerField::new('sleepTime')->setHelp('Задержка в ответе, указывать в секундах (допустим значение 1 даст время ответа 1+ сек)')->setLabel('Задержка (мс)')->setColumns(6),
+            FormField::addTab('Параметры'),
+            CollectionField::new('params')->useEntryCrudForm(EndpointParametersCrudController::class)->setColumns(13)->setHelp('Параметры запроса')->setLabel('Параметры'),
+            FormField::addTab('Возвращаемые значения'),
+            CollectionField::new('data')->useEntryCrudForm(EndpointDataCrudController::class)->setColumns(13)->setHelp('Варианты ответов')->setLabel('Ответы'),
         ];
-
-        if ($pageName === Crud::PAGE_NEW) {
-            $response[3]->setValue(3);
-            $response[4]->setValue(0);
-        }
-
-        return $response;
     }
 
     public function createEntity(string $entityFqcn): Endpoint

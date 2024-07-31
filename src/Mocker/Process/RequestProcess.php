@@ -2,10 +2,10 @@
 
 namespace App\Mocker\Process;
 
-use App\Mocker\Exceptions\Parameters\InvalidParamsRegexException;
-use App\Mocker\Exceptions\Parameters\InvalidParamsTypeException;
-use App\Mocker\Exceptions\Parameters\ParamsNotFoundException;
-use App\Mocker\Exceptions\Parameters\ParamsValueIsNotFoundInWhitelistException;
+use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsRegexException;
+use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsTypeException;
+use App\Mocker\Exceptions\Variations\Parameters\ParamsNotFoundException;
+use App\Mocker\Exceptions\Variations\Parameters\ParamsValueIsNotFoundInWhitelistException;
 use App\Mocker\Process\Providers\DataProvider\DataProvider;
 use App\Mocker\Process\Providers\EndpointProvider\EndpointProvider;
 use App\Mocker\Process\Providers\ParametersProvider\ParametersProvider;

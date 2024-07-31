@@ -2,7 +2,7 @@
 
 namespace App\Mocker\ApplicationExpression;
 
-use App\Mocker\Exceptions\Expressions\InvalidExpressionStructureException;
+use App\Mocker\Exceptions\Variations\Expressions\InvalidExpressionStructureException;
 
 interface ApplicationExpressionInterface
 {

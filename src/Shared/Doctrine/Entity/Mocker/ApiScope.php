@@ -25,7 +25,7 @@ class ApiScope
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\OneToMany(mappedBy: 'apiScopes', targetEntity: Endpoint::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'apiScopes', targetEntity: Endpoint::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $endpoints;
 
     public function __construct()

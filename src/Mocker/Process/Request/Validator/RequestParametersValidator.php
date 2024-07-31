@@ -2,9 +2,9 @@
 
 namespace App\Mocker\Process\Request\Validator;
 
-use App\Mocker\Exceptions\Parameters\InvalidParamsRegexException;
-use App\Mocker\Exceptions\Parameters\InvalidParamsTypeException;
-use App\Mocker\Exceptions\Parameters\ParamsValueIsNotFoundInWhitelistException;
+use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsRegexException;
+use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsTypeException;
+use App\Mocker\Exceptions\Variations\Parameters\ParamsValueIsNotFoundInWhitelistException;
 use App\Shared\Doctrine\Entity\Mocker\EndpointParam;
 
 class RequestParametersValidator implements RequestParametersValidatorInterface

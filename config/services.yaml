@@ -47,3 +47,7 @@ services:
     App\EasyAdmin\EventSubscriber\CustomFields\CustomPropertyFieldSubscriber:
         tags:
             - { name: kernel.event_subscriber }
+
+    App\Mocker\Exceptions\EventSubscriber\ExceptionSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }

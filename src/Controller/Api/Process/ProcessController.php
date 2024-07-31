@@ -16,7 +16,7 @@ class ProcessController extends AbstractController
     {
     }
 
-    #[Route('/process/{scope}/{endpoint}', methods: ['GET', 'POST', 'PUT', 'DELETE'])]
+    #[Route('/mocker/{scope}/{endpoint}', methods: ['GET', 'POST', 'PUT', 'DELETE'])]
     public function process(Request $request, string $scope, string $endpoint): JsonResponse
     {
         $response = $this->requestProcess->process($request, ['scope' => $scope, 'endpoint' => $endpoint]);

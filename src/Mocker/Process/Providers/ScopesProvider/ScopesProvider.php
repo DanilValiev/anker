@@ -2,6 +2,7 @@
 
 namespace App\Mocker\Process\Providers\ScopesProvider;
 
+use App\Mocker\Exceptions\Variations\Scopes\ScopeNotFoundException;
 use App\Mocker\Process\Providers\ProviderInterface;
 use App\Mocker\Process\Request\Model\ApplicationRequest;
 use App\Shared\Doctrine\Entity\Mocker\ApiScope;
@@ -15,8 +16,17 @@ class ScopesProvider implements ProviderInterface
     {
     }
 
+    /**
+     * @throws ScopeNotFoundException
+     */
     public function get(ApplicationRequest $request): ApiScope
     {
-        return $this->apiScopesRepository->findOneBy(['slug' => $request->getScopePath()]);
+        $scope = $this->apiScopesRepository->findOneBy(['slug' => $request->getScopePath()]);
+
+        if (!$scope instanceof ApiScope) {
+            throw new ScopeNotFoundException();
+        }
+
+        return $scope;
     }
 }
