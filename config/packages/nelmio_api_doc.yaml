@@ -1,0 +1,96 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Merchant cabinet api
+            description: API for the merchant's personal account
+            version: 1.0.0
+        components:
+            schemas:
+
+                PaymentMethodDetail:
+                    type: object
+                    description: Paymeht method model
+                    properties:
+                        card_token:
+                            type: string
+                            example: "1qAx1bz5g48BfnapBgIsBplHYFHKCqZ1oZq7XJ5yvwX"
+                        card_masked:
+                            type: string
+                            example: "220138******0013"
+                        card_network:
+                            type: string
+                            example: "2"
+
+                DateTime:
+                    type: object
+                    description: DateTime model
+                    properties:
+                        date:
+                            type: string
+                            example: "2020-05-19 18:54:56.000000"
+                        timezone_type:
+                            type: string
+                            example: "3"
+                        timezone:
+                            type: string
+                            example: "Europe/Moscow"
+
+                OperationItem:
+                    type: object
+                    description: Operation item
+                    properties:
+                        id:
+                            type: string
+                            description: External operation id
+                            example: "pm_122844"
+                        type:
+                            type: string
+                            description: Operation type (payment|payout)
+                            example: "payment"
+                        creationDate:
+                            $ref: '#/components/schemas/DateTime'
+                        closingDate:
+                            $ref: '#/components/schemas/DateTime'
+                        status:
+                            type: string
+                            description: Operation status (succeeded|failed)
+                            example: "succeeded"
+                        paymentMethodType:
+                            type: string
+                            example: "bank_card"
+                        paymentMethodData:
+                            $ref: '#/components/schemas/PaymentMethodDetail'
+                        amounts:
+                            type: string
+                            description: Amounts
+                            example: 1000
+
+                MainOperations:
+                    type: object
+                    description: Main Operations Model
+                    properties:
+                        currentPage:
+                            type: integer
+                            example: 1
+                        itemCountOnPage:
+                            type: integer
+                            example: 25
+                        data:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/OperationItem'
+                        totalItemCount:
+                            type: integer
+                            example: 1000
+
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: [ ]
+
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

@@ -1,0 +1,30 @@
+.form-group.field-collection .accordion.no_border {
+    box-shadow: none;
+}
+.form-group.field-collection .field-collection-delete-button.custom-button {
+    right: -1em;
+    top: 0em;
+}
+.no_border .accordion-body {
+    padding: 0 1em;
+}
+.no_border .form-group.field-collection .field-collection-item-first .accordion-header .form-group.field-collection .field-collection-item-first .accordion-item {
+    box-shadow: none;
+}
+.no_border .form-group.field-collection .accordion-item {
+    box-shadow: none;
+}
+.no_border .row .col-6 {
+    margin-right: 0;
+    padding-right: 0;
+}
+.no_border .row .col-6 :nth-child(2) {
+    margin-right: 1em;
+    padding-right: 0;
+}
+.form-group.field-collection .accordion-item.accordion-item-custom {
+    box-shadow: none;
+}
+.form-group.field-collection .accordion-item .row .col-6 .form-group {
+    padding: 0 0;
+}

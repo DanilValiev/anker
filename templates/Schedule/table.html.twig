@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запланированные изменения</title>
+
+    <style>
+        /* Стили таблицы (IKSWEB) */
+        table.iksweb{text-decoration: none;border-collapse:collapse;width:100%;text-align:center;}
+        table.iksweb th{font-weight:normal;font-size:17px; color:#ffffff;background-color:#354251;}
+        table.iksweb td{font-size:14px;color:#354251;}
+        table.iksweb td,table.iksweb th{white-space:pre-wrap;padding:30px 9px;line-height:14px;vertical-align: middle;border: 1px solid #354251;}	table.iksweb tr:hover{background-color:#f9fafb}
+        table.iksweb tr:hover td{color:#354251;cursor:default;}
+
+        a {display: block;margin: 30px;border: 1px solid black;width: fit-content;padding: 5px;text-decoration: none;color: black;}
+    </style>
+</head>
+<body>
+<h2>Название: {{ changes['extra']['entityName'] }} [{{ changes['extra']['entityIdentify'] }}]</h2>
+<h3>Будет выполнено: {{ executeafter }} (UTC +0)</h3>
+<table class="iksweb">
+    <thead>
+        <tr>
+            <td><b>Поле</b></td>
+            <td><b>Было</b></td>
+            <td><b>Стало</b></td>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for key, value in changes %}
+            {% if key != 'extra' %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value[0]|nl2br }}</td>
+                    <td>{{ value[1]|nl2br }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="display: flex">
+    <a href="{{ referrer }}">Назад</a>
+    <a href="queue/cancel?jobId={{ jobId }}&referrer={{ referrer }}" style="color: red">Отменить изменение</a>
+</div>
+
+</body>
+</html>

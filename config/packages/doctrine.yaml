@@ -1,0 +1,76 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        mapping_types:
+            proxy_type: string
+            payment_system_type: string
+            hstore: string
+            int4range: string
+            _text: string
+            deal_type: string
+            transaction_status: string
+            session_status: string
+            error_mapping_direction: string
+            product_type: string
+            aggr_type: string
+            aggr_selection_time: string
+            refund_status: string
+            refund_acceptance: string
+            job_type: string
+            payment_revenue_type: string
+            bound_type: string
+            payment_system_feature_name: string
+        types:
+            json_array: App\Shared\Doctrine\Compatibility\Dbal\JsonArrayType
+            datetimetz_ms: App\Shared\Doctrine\Compatibility\CustomTypes\DateTimeTzWithMicrosecondsType
+
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        filters:
+            soft_deletable:
+                class: App\Shared\RevisionManager\Filters\RevisionLoggableEntityDeletionFilter
+                enabled: true
+        mappings:
+            App:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Doctrine/Entity/Mocker'
+                prefix: 'App\Shared\Doctrine\Entity\Mocker'
+                alias: App
+            gedmo_loggable:
+                mapping: true
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
+                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                is_bundle: false
+        dql:
+            string_functions:
+                JSON_GET_TEXT: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonGetText
+                JSON_GET: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonGet
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

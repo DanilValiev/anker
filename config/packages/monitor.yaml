@@ -1,0 +1,12 @@
+liip_monitor:
+    enable_controller: true
+    default_group: web_api
+    failure_status_code:  503
+    checks:
+        groups:
+            web_api:
+                writable_directory: [ "%kernel.cache_dir%", "%kernel.logs_dir%" ]
+                apc_memory:
+                    warning: 80
+                    critical: 90
+                doctrine_dbal: [default]

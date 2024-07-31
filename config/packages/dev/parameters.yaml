@@ -1,0 +1,5 @@
+parameters:
+    map_ldap_groups:
+        adminka-dev-users: 'ROLE_SUPER_ADMIN'
+        adminka-users: 'ROLE_USER'
+        adminka-roots: 'ROLE_SUPER_ADMIN'

@@ -1,0 +1,211 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_IMAGE_DEPLOY: 'registry.bank131.ru/131/build-ansible:latest'
+  RUNNER_IMAGE: "registry.bank131.ru/msk/kubernetes/runner/gitlab-runner-k8s:master"
+
+stages:
+  - build
+  - deploy
+  - rollback
+
+.build_image:
+  stage: build
+  services:
+    - name: 'docker:dind'
+      command: ['--registry-mirror=https://repo.bank131.ru']
+  image: docker:stable
+  variables:
+    APP_ENV: application-environment-alias
+  before_script:
+    - echo ${APP_ENV}
+    - echo "APP_ENV=${APP_ENV}" > .env.local
+    - echo "GIT_BRANCH=${CI_COMMIT_REF_NAME}" >> .env.local
+    - echo "GIT_COMMIT=${CI_COMMIT_SHORT_SHA}" >> .env.local
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build
+      --tag $CI_REGISTRY_IMAGE/php-fpm:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+      --tag $CI_REGISTRY_IMAGE/php-fpm:latest -f dockerfiles/php-fpm/Dockerfile .
+      --build-arg APP_VERSION_NAME=$CI_COMMIT_SHORT_SHA
+      --build-arg APP_VERSION_COMMIT=$CI_BUILD_REF
+    - docker push $CI_REGISTRY_IMAGE/php-fpm:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+    - docker push $CI_REGISTRY_IMAGE/php-fpm:latest
+    - docker build
+      --tag $CI_REGISTRY_IMAGE/php-cli:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+      --tag $CI_REGISTRY_IMAGE/php-cli:latest -f dockerfiles/php-cli/Dockerfile .
+      --build-arg APP_VERSION_NAME=$CI_COMMIT_SHORT_SHA
+      --build-arg APP_VERSION_COMMIT=$CI_BUILD_REF
+    - docker push $CI_REGISTRY_IMAGE/php-cli:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+    - docker push $CI_REGISTRY_IMAGE/php-cli:latest
+    - docker build
+      --tag $CI_REGISTRY_IMAGE/nginx:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+      --tag $CI_REGISTRY_IMAGE/nginx:latest -f dockerfiles/nginx/Dockerfile .
+      --build-arg APP_VERSION_NAME=$CI_COMMIT_SHORT_SHA
+      --build-arg APP_VERSION_COMMIT=$CI_BUILD_REF
+    - docker push $CI_REGISTRY_IMAGE/nginx:${CI_COMMIT_SHORT_SHA}_${APP_ENV}
+    - docker push $CI_REGISTRY_IMAGE/nginx:latest
+  tags:
+    - tag-builder
+
+.deploy_template:
+  environment: $ENV
+  image:
+    name: registry.bank131.ru/msk/kubernetes/runner/gitlab-runner-k8s:master
+  script:
+    - echo $VAULT > deploy/vault
+    - ansible-vault decrypt deploy/${ENV}/01_role.yml deploy/${ENV}/02_secret.yml --vault-password-file deploy/vault
+    - envsubst < deploy/${ENV}/04_deployment.yml.tmpl > deploy/${ENV}/04_deployment.yml
+    - kubectl apply -f deploy/$ENV
+    - kubectl rollout restart -n ${ENV}-admin-board deploy admin-board
+    - kubectl wait -n ${ENV}-admin-board --for=condition=Available --timeout=3m deploy admin-board
+    - kubectl rollout status -n ${ENV}-admin-board deploy admin-board --timeout=3m
+    - kubectl get pod -n $ENV-admin-board
+  allow_failure: true
+
+.rollback_template:
+  stage: rollback
+  image:
+    name: $RUNNER_IMAGE
+  script:
+    - kubectl rollout undo deployment/admin-board -n ${ENV}-admin-board
+    - kubectl annotate deployment/admin-board -n ${ENV}-admin-board kubernetes.io/change-cause="rolledback at $CI_PIPELINE_URL"
+    - kubectl rollout history deployment/admin-board -n ${ENV}-admin-board
+    - kubectl rollout status deployment/admin-board -n ${ENV}-admin-board
+    - kubectl get deployment -n ${ENV}-admin-board
+    - kubectl get pod -n ${ENV}-admin-board
+  allow_failure: true
+
+######Playground######
+build_playground:
+  extends: .build_image
+  stage: build
+  variables:
+    APP_ENV: playground
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null || $CI_COMMIT_TAG != null'
+
+playground_deploy_k8s:
+  stage: deploy
+  variables:
+    ENV: playground
+  extends: .deploy_template
+  tags:
+    - itp_k8s_runner
+  needs: [ "build_playground" ]
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null || $CI_COMMIT_TAG != null'
+      when: manual
+
+playground_rollback:
+  stage: rollback
+  variables:
+    ENV: playground
+  extends: .rollback_template
+  needs: [ "playground_deploy_k8s" ]
+  tags:
+    - itp_k8s_runner
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null || $CI_COMMIT_TAG != null'
+      when: manual
+
+######Stage######
+build_stage:
+  extends: .build_image
+  stage: build
+  variables:
+    APP_ENV: stage
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null'
+      when: manual
+
+stage_deploy_k8s:
+  stage: deploy
+  variables:
+    ENV: stage
+  extends: .deploy_template
+  tags:
+    - itp_k8s_runner
+  needs: [ "build_stage" ]
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null'
+      when: manual
+
+stage_rollback:
+  stage: rollback
+  variables:
+    ENV: stage
+  extends: .rollback_template
+  needs: [ "stage_deploy_k8s" ]
+  tags:
+    - itp_k8s_runner
+  rules:
+    - if: '$CI_COMMIT_BRANCH != null'
+      when: manual
+
+######DEMO######
+build_demo:
+  extends: .build_image
+  stage: build
+  variables:
+    APP_ENV: demo
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual
+
+demo_deploy_k8s:
+  stage: deploy
+  variables:
+    ENV: demo
+  extends: .deploy_template
+  tags:
+    - yc-k8s-runner
+  needs: [ "build_demo" ]
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual
+
+demo_rollback:
+  stage: rollback
+  variables:
+    ENV: demo
+  extends: .rollback_template
+  needs: [ "demo_deploy_k8s" ]
+  tags:
+    - yc-k8s-runner
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual
+
+######PROD######
+build_prod:
+  extends: .build_image
+  stage: build
+  variables:
+    APP_ENV: prod
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual
+
+prod_deploy_k8s:
+  stage: deploy
+  variables:
+    ENV: prod
+  extends: .deploy_template
+  tags:
+    - yc-k8s-runner
+  needs: [ "build_prod" ]
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual
+
+prod_rollback:
+  stage: rollback
+  variables:
+    ENV: prod
+  extends: .rollback_template
+  needs: [ "prod_deploy_k8s" ]
+  tags:
+    - yc-k8s-runner
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: manual

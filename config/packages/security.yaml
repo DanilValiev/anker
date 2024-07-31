@@ -1,0 +1,30 @@
+security:
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ ROLE_MANAGER, ROLE_SUPPORT, ROLE_API, ROLE_USER ]
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        backend_users:
+            memory:
+                users:
+                    wambot: { password: '$2a$10$E9ZndNL9SqGtrtmUgUwz9egIqbRGhBT4UsFeNyk0pZscBzZsh9C82', roles: [ 'ROLE_SUPER_ADMIN' ] }
+
+    firewalls:
+        main:
+            security: true
+            lazy: true
+            provider: backend_users
+            form_login:
+                login_path: login
+                check_path: login
+                enable_csrf: true
+
+            logout:
+                path: app_logout
+
+
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_USER }
