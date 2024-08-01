@@ -21,7 +21,7 @@ class EndpointDataCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('expression')->setLabel('Условие')->setHelp('Условие где && -> это и || -> это или =/!= -> соответственно. Например: (key1 = true || key2 = false) && key3 = true')->setColumns(7),
+            TextField::new('expression')->setLabel('Условие')->setHelp('Условие где && -> это и || -> это или =/!= -> соответственно. Например: (key1 = true || key2 = false) && key3 = true')->setColumns(7)->hideOnIndex(),
             IntegerField::new('statusCode')->setLabel('Статус код')->setHelp('HTTP код ответа')->setColumns(7),
             CodeEditorField::new('data')->setLabel('Ответ')->setHelp('Ответ в формате json')->setColumns(7),
             BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли вариант ответа')->setColumns(7),

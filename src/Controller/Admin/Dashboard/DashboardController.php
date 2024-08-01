@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Dashboard;
 use App\Controller\Admin\Crud\ScopesCrudController;
 use App\Shared\Doctrine\Entity\Mocker\ApiScope;
 use App\Shared\Doctrine\Entity\Mocker\Endpoint;
+use App\Shared\Doctrine\Entity\Mocker\ProcessLog;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -44,7 +45,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Мокер - управляй мечтой!')
+            ->setTitle('Анкер - управляй мечтой!')
         ;
     }
 
@@ -73,10 +74,12 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::section('Секции');
-        yield MenuItem::linkToCrud('▪ Scopes', '', ApiScope::class);
+        yield MenuItem::section('Мокер');
+        yield MenuItem::linkToCrud('▪ Неймспейсы', '', ApiScope::class);
+        yield MenuItem::linkToCrud('▪ Эндпойнты', '', Endpoint::class);
 
-        yield MenuItem::section('Эндпойнты');
-        yield MenuItem::linkToCrud('▪ Endpoints', '', Endpoint::class);
+        yield MenuItem::section('Системное');
+        yield MenuItem::linkToCrud('▪ Логи запросов', '', ProcessLog::class);
+
     }
 }

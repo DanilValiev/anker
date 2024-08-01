@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EasyAdmin\Exceptions\Admin;
+namespace App\EasyAdmin\Exceptions\Variations\Admin;
 
 use Exception;
 use Throwable;

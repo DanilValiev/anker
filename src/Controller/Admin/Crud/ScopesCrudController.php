@@ -27,8 +27,9 @@ class ScopesCrudController extends AbstractCrudController
             TextField::new('slug')->setLabel('Путь')->setHelp('Путь до окружения'),
             TextEditorField::new('description')->setLabel('Описание')->setHelp('Описание окружения'),
             BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли скоуп и все его эндпойнты'),
+
             FormField::addTab('Эндпойнты'),
-            CollectionField::new('endpoints')->useEntryCrudForm(EndpointCrudController::class)->setColumns(10)->setLabel('Эндпойнты')->setHelp('Перечень созданных эндпоинтов')
+            CollectionField::new('endpoints')->useEntryCrudForm(EndpointCrudController::class)->setColumns(10)->setLabel('Эндпойнты')->setHelp('Перечень созданных эндпоинтов')->hideOnIndex()
         ];
     }
 }

@@ -25,7 +25,7 @@ class ApiScope
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\OneToMany(mappedBy: 'apiScopes', targetEntity: Endpoint::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'apiScopes', targetEntity: Endpoint::class, cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
     private Collection $endpoints;
 
     public function __construct()
@@ -102,5 +102,10 @@ class ApiScope
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->slug;
     }
 }

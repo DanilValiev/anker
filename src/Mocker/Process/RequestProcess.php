@@ -2,10 +2,14 @@
 
 namespace App\Mocker\Process;
 
+use App\Mocker\Exceptions\Variations\Endpoints\EndpointDataNotFoundException;
+use App\Mocker\Exceptions\Variations\Endpoints\EndpointNotFoundException;
 use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsRegexException;
 use App\Mocker\Exceptions\Variations\Parameters\InvalidParamsTypeException;
 use App\Mocker\Exceptions\Variations\Parameters\ParamsNotFoundException;
 use App\Mocker\Exceptions\Variations\Parameters\ParamsValueIsNotFoundInWhitelistException;
+use App\Mocker\Exceptions\Variations\Scopes\ScopeNotFoundException;
+use App\Mocker\Logger\ApplicationLogger;
 use App\Mocker\Process\Providers\DataProvider\DataProvider;
 use App\Mocker\Process\Providers\EndpointProvider\EndpointProvider;
 use App\Mocker\Process\Providers\ParametersProvider\ParametersProvider;
@@ -24,21 +28,26 @@ class RequestProcess implements RequestProcessInterface
         private readonly ParametersProvider $parametersProvider,
         private readonly DataProvider $dataProvider,
         private readonly LoggerInterface $logger,
+        private readonly ApplicationLogger $applicationLogger
     )
     {
     }
 
     /**
-     * @throws ParamsValueIsNotFoundInWhitelistException
      * @throws InvalidParamsTypeException
-     * @throws InvalidParamsRegexException
+     * @throws ScopeNotFoundException
+     * @throws ParamsValueIsNotFoundInWhitelistException
+     * @throws EndpointNotFoundException
      * @throws ParamsNotFoundException
+     * @throws InvalidParamsRegexException
+     * @throws EndpointDataNotFoundException
      */
     public function process(Request $request, array $urlDetails): ?EndpointData
     {
         $this->logger->info('Request process started!', ['url' => $request->getBaseUrl()]);
+        $applicationRequest = $this->applicationRequestFactory->create($request, $urlDetails);
+
         try {
-            $applicationRequest = $this->applicationRequestFactory->create($request, $urlDetails);
 
             $applicationRequest
                 ->setApiScope($this->scopesProvider->get($applicationRequest))
@@ -47,13 +56,17 @@ class RequestProcess implements RequestProcessInterface
                 ->setEndpointData($this->dataProvider->get($applicationRequest))
             ;
         } catch (\Exception $exception) {
+            $applicationRequest->setError($exception->getMessage())->setErrorCode($exception->getCode());
             $this->logger->error('Request process error!', ['ex' => $exception, 'code' => $exception->getCode()]);
+
             throw $exception;
         } finally {
             $this->logger->info('Request process finished!', [
                     'url' => $request->getBaseUrl(),
-                    'params' => isset($applicationRequest) ? $applicationRequest->getParams() : []
+                    'params' => $applicationRequest->getParams()
             ]);
+
+            $this->applicationLogger->log($applicationRequest);
         }
 
         sleep($applicationRequest->getEndpoint()->getSleepTime());

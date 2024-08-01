@@ -10,6 +10,12 @@ class ApplicationRequest
 {
     private string $method;
 
+    private array $userHeaders = [];
+
+    private array $userParams = [];
+
+    private array $userIp = [];
+
     private string $scopePath;
 
     private ?ApiScope $apiScope = null;
@@ -18,9 +24,13 @@ class ApplicationRequest
 
     private ?Endpoint $endpoint = null;
 
-    private array $params;
+    private array $params = [];
 
-    private ?EndpointData $endpointData;
+    private ?EndpointData $endpointData = null;
+
+    private ?string $error = null;
+
+    private ?int $errorCode = null;
 
     public function getMethod(): string
     {
@@ -30,6 +40,42 @@ class ApplicationRequest
     public function setMethod(string $method): self
     {
         $this->method = $method;
+
+        return $this;
+    }
+
+    public function getUserHeaders(): array
+    {
+        return $this->userHeaders;
+    }
+
+    public function setUserHeaders(array $userHeaders): self
+    {
+        $this->userHeaders = $userHeaders;
+
+        return $this;
+    }
+
+    public function getUserParams(): array
+    {
+        return $this->userParams;
+    }
+
+    public function setUserParams(array $userParams): self
+    {
+        $this->userParams = $userParams;
+
+        return $this;
+    }
+
+    public function getUserIp(): array
+    {
+        return $this->userIp;
+    }
+
+    public function setUserIp(array $userIp): self
+    {
+        $this->userIp = $userIp;
 
         return $this;
     }
@@ -94,14 +140,38 @@ class ApplicationRequest
         return $this;
     }
 
-    public function getEndpointData(): EndpointData
+    public function getEndpointData(): ?EndpointData
     {
         return $this->endpointData;
     }
 
-    public function setEndpointData(EndpointData $endpointData): self
+    public function setEndpointData(?EndpointData $endpointData): self
     {
         $this->endpointData = $endpointData;
+
+        return $this;
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
+    public function setError(?string $error): ApplicationRequest
+    {
+        $this->error = $error;
+
+        return $this;
+    }
+
+    public function getErrorCode(): ?int
+    {
+        return $this->errorCode;
+    }
+
+    public function setErrorCode(?int $errorCode): ApplicationRequest
+    {
+        $this->errorCode = $errorCode;
 
         return $this;
     }

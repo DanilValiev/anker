@@ -18,6 +18,9 @@ class ApplicationRequestFactory implements ApplicationRequestFactoryInterface
 
         return (new ApplicationRequest())
             ->setMethod($request->getMethod())
+            ->setUserParams($params)
+            ->setUserHeaders($request->headers->all())
+            ->setUserIp($request->getClientIps())
             ->setScopePath($urlDetails['scope'])
             ->setEndpointPath($urlDetails['endpoint'])
             ->setParams($params)
