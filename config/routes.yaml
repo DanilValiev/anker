@@ -1,5 +1,9 @@
-controllers:
-    resource: ../src/Controller/
+controllers_easy_admin:
+    resource: "../src/Modules/EasyAdmin/Application/Api/"
+    type: annotation
+
+controllers_mocker:
+    resource: "../src/Modules/Mocker/Application/Api/"
     type: annotation
 
 kernel:

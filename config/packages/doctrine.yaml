@@ -21,8 +21,8 @@ doctrine:
             bound_type: string
             payment_system_feature_name: string
         types:
-            json_array: App\Shared\Doctrine\Compatibility\Dbal\JsonArrayType
-            datetimetz_ms: App\Shared\Doctrine\Compatibility\CustomTypes\DateTimeTzWithMicrosecondsType
+            json_array: App\Shared\Infrastructure\Doctrine\Compatibility\Dbal\JsonArrayType
+            datetimetz_ms: App\Shared\Infrastructure\Doctrine\Compatibility\CustomTypes\DateTimeTzWithMicrosecondsType
 
     orm:
         auto_generate_proxy_classes: true
@@ -30,13 +30,19 @@ doctrine:
         auto_mapping: true
         filters:
             soft_deletable:
-                class: App\Shared\RevisionManager\Filters\RevisionLoggableEntityDeletionFilter
+                class: App\Shared\Infrastructure\RevisionManager\Filters\RevisionLoggableEntityDeletionFilter
                 enabled: true
         mappings:
             App:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Shared/Doctrine/Entity/Mocker'
-                prefix: 'App\Shared\Doctrine\Entity\Mocker'
+                dir: '%kernel.project_dir%/src/Shared/Domain/Entity/Mocker'
+                prefix: 'App\Shared\Domain\Entity\Mocker'
+                alias: App
+
+            Proxy:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Domain/Entity/Proxy'
+                prefix: 'App\Shared\Domain\Entity\Proxy'
                 alias: App
             gedmo_loggable:
                 mapping: true

@@ -1,6 +1,0 @@
-tbody, td, tfoot, th, thead, tr
-{
-    border: 0 solid inherit;
-    max-width: 220px;
-    word-wrap: break-word;
-}
