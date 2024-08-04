@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Mocker\Domain\Process\Logger;
+namespace App\Modules\Proxy\Domain\Process\Logger;
 
 use App\Shared\Domain\Entity\Proxy\ProxyLog;
 use App\Shared\Domain\Model\ApplicationCommand;

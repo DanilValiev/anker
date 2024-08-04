@@ -2,8 +2,8 @@
 
 namespace App\Modules\Scheduler\Infrastructure\EventSubscriber;
 
-use App\Modules\EasyAdmin\Application\Api\System\CustomUiExceptionController;
-use App\Modules\EasyAdmin\Infrastructure\Helper\EasyAdminFormHelper;
+use App\Modules\Admin\Application\Api\System\CustomUiExceptionController;
+use App\Modules\Admin\Infrastructure\Helper\EasyAdminFormHelper;
 use App\Modules\Scheduler\Domain\Scheduler;
 use DateTime;
 use DateTimeZone;

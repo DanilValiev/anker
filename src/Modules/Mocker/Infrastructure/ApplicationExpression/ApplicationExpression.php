@@ -2,11 +2,12 @@
 
 namespace App\Modules\Mocker\Infrastructure\ApplicationExpression;
 
+use App\Modules\Mocker\Domain\ApplicationExpression\ApplicationExpressionInterface;
 use App\Modules\Mocker\Domain\Process\Exceptions\Expressions\InvalidExpressionStructureException;
 use App\Modules\Mocker\Infrastructure\ApplicationExpression\Parser\ExpressionParser;
 use App\Modules\Mocker\Infrastructure\ApplicationExpression\Validator\ExpressionValidator;
 
-class ApplicationExpression
+class ApplicationExpression implements ApplicationExpressionInterface
 {
     public function __construct(
         private readonly ExpressionParser $expressionParser

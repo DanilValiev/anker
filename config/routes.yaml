@@ -1,5 +1,5 @@
 controllers_easy_admin:
-    resource: "../src/Modules/EasyAdmin/Application/Api/"
+    resource: "../src/Modules/Admin/Application/Api/"
     type: annotation
 
 controllers_mocker:

@@ -3,7 +3,7 @@
 namespace App\Shared\Infrastructure\Logger;
 
 use App\Modules\Mocker\Domain\Process\Logger\MockerLoggerInterface;
-use App\Modules\Mocker\Domain\Process\Logger\ProxyLoggerInterface;
+use App\Modules\Proxy\Domain\Process\Logger\ProxyLoggerInterface;
 use App\Shared\Domain\Entity\Mocker\ProcessLog;
 use App\Shared\Domain\Entity\Proxy\ProxyLog;
 use App\Shared\Domain\Model\ApplicationCommand;

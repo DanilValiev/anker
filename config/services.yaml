@@ -22,8 +22,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Modules\EasyAdmin\Application\Api\:
-        resource: '../src/Modules/EasyAdmin/Application/Api/'
+    App\Modules\Admin\Application\Api\:
+        resource: '../src/Modules/Admin/Application/Api/'
         tags: ['controller.service_arguments']
 
     App\Modules\Mocker\Application\Api\:
@@ -39,7 +39,7 @@ services:
             - { name: kernel.event_listener, event: kernel.request, priority: 5 }
         autoconfigure: false
 
-    App\Modules\EasyAdmin\Infrastructure\Helper\EasyAdminFormHelper:
+    App\Modules\Admin\Infrastructure\Helper\EasyAdminFormHelper:
         arguments:
             $container: '@service_container'
 
@@ -47,7 +47,7 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    App\Modules\EasyAdmin\Infrastructure\EventSubscriber\CustomPropertyFieldSubscriber:
+    App\Modules\Admin\Infrastructure\EventSubscriber\CustomPropertyFieldSubscriber:
         tags:
             - { name: kernel.event_subscriber }
 
@@ -55,5 +55,10 @@ services:
         tags:
             - { name: 'kernel.event_subscriber' }
 
-    App\Modules\Mocker\Domain\Process\Logger\ProxyLoggerInterface:
+    App\Modules\Proxy\Domain\Process\Logger\ProxyLoggerInterface:
         class: App\Shared\Infrastructure\Logger\ApplicationLogger
+
+    monolog.handler.stdout:
+        class: App\Shared\Infrastructure\Logger\Handler\FilterHandler
+        arguments:
+            $excludedMessages: [ 'Notified event', 'User Deprecated', 'Listener "{listener}" was not called for event "{event}"' ]

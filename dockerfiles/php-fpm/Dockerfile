@@ -1,21 +1,13 @@
-FROM registry.bank131.ru/131/merchant-cabinet-api/composer as builder
+FROM php:8.1-fpm
 
-ARG COMPOSER_ARGUMENTS="--optimize-autoloader"
-COPY . /var/www/
-WORKDIR /var/www/
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+&& rm -rf /var/lib/apt/lists/*
 
-RUN rm -r ./dockerfiles
-RUN composer install ${COMPOSER_ARGUMENTS}
+RUN docker-php-ext-install intl
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
-
-FROM registry.bank131.ru/131/dev-tools/php/8.1-fpm:2.1.1 AS web-api
-
-COPY --from=builder /var/www /var/www
-
-ENV PHP_OPCACHE_ENABLE 1
-
-RUN mkdir -p /var/www/var/ && chmod -R 777 /var/www/var
-
-RUN echo "xdebug.log_level = 0" >> /etc/php/8.1/fpm/conf.d/20-xdebug.ini
-
-CMD ["php-fpm"]
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+&& docker-php-ext-install pdo_pgsql

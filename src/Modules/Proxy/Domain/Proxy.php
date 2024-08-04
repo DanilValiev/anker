@@ -2,7 +2,7 @@
 
 namespace App\Modules\Proxy\Domain;
 
-use App\Modules\Mocker\Domain\Process\Logger\ProxyLoggerInterface;
+use App\Modules\Proxy\Domain\Process\Logger\ProxyLoggerInterface;
 use App\Modules\Proxy\Domain\Model\ProxyResponse;
 use App\Modules\Proxy\Domain\Process\Exception\ProxyNotFoundException;
 use App\Modules\Proxy\Domain\Process\Provider\ParameterProviderInterface;

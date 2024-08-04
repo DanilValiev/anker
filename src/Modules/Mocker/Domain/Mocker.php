@@ -2,7 +2,6 @@
 
 namespace App\Modules\Mocker\Domain;
 
-use App\Modules\Mocker\Domain\Factory\ApplicationRequestFactory;
 use App\Modules\Mocker\Domain\Process\Exceptions\Endpoints\EndpointDataNotFoundException;
 use App\Modules\Mocker\Domain\Process\Exceptions\Endpoints\EndpointNotFoundException;
 use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\InvalidParamsRegexException;
@@ -11,13 +10,11 @@ use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\ParamsNotFoundExcept
 use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\ParamsValueIsNotFoundInWhitelistException;
 use App\Modules\Mocker\Domain\Process\Exceptions\Scopes\ScopeNotFoundException;
 use App\Modules\Mocker\Domain\Process\Logger\MockerLoggerInterface;
-use App\Modules\Mocker\Domain\Process\Logger\ProxyLoggerInterface;
 use App\Modules\Mocker\Domain\Process\Provider\DataProviderInterface;
 use App\Modules\Mocker\Domain\Process\Provider\EndpointProviderInterface;
 use App\Modules\Mocker\Domain\Process\Provider\ParametersProviderInterface;
 use App\Modules\Mocker\Domain\Process\Provider\ScopesProviderInterface;
 use App\Modules\Proxy\Domain\Proxy;
-use App\Shared\Domain\Entity\Mocker\EndpointData;
 use App\Shared\Domain\Model\ApplicationCommand;
 use Exception;
 use Psr\Log\LoggerInterface;
