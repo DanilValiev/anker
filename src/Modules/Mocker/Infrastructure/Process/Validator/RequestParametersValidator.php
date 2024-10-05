@@ -5,7 +5,7 @@ namespace App\Modules\Mocker\Infrastructure\Process\Validator;
 use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\InvalidParamsRegexException;
 use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\InvalidParamsTypeException;
 use App\Modules\Mocker\Domain\Process\Exceptions\Parameters\ParamsValueIsNotFoundInWhitelistException;
-use App\Shared\Domain\Entity\Mocker\EndpointParam;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Parameters\EndpointParam;
 
 class RequestParametersValidator
 {

@@ -2,6 +2,7 @@
 
 namespace App\Shared\Domain\Entity\Mocker;
 
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Infrastructure\Doctrine\Repository\Mocker\ApiScopesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

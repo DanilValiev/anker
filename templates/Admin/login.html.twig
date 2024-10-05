@@ -1,0 +1,43 @@
+{% extends '@EasyAdmin/page/login.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+
+    <style>
+        body.page-login {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: url('css/admin/bg-full.jpg');
+        }
+
+        .logo {
+            font-size: 46px;
+            color: white;
+            padding: 50px;
+            font-family: monospace;
+        }
+
+        section.content {
+            background-color: #66bceb9e;
+            padding: 25px !important;
+            border-radius: 10px !important;
+        }
+
+        .login-wrapper .form-widget input {
+            background-color: #fff2f2e3;
+        }
+
+        button.btn.btn-primary.btn-lg.btn-block {
+            margin-left: auto;
+            display: block;
+            width: 100%;
+            height: 45px;
+            background-color: #3d036c;
+        }
+
+        .form-group label, .form-group legend.col-form-label {
+            color: #000000 !important;
+            font-size: 15px !important;
+        }
+    </style>
+{% endblock %}

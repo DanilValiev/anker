@@ -32,7 +32,7 @@ class ProcessController extends AbstractController
      * @throws ScopeNotFoundException
      * @throws EndpointDataNotFoundException
      */
-    #[Route('/proxy/{scope}/{endpoint}', methods: ['GET', 'POST', 'PUT', 'DELETE'])]
+    #[Route('/{scope}/{endpoint}', methods: ['GET', 'POST', 'PUT', 'DELETE'])]
     public function process(Request $request, string $scope, string $endpoint): JsonResponse
     {
         $applicationCommand = $this->mocker->process($request, ['scope' => $scope, 'endpoint' => $endpoint]);

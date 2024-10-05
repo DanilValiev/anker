@@ -1,0 +1,44 @@
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx/Dockerfile
+    restart: always
+    depends_on:
+      - php-fpm
+    ports:
+      - '8810:80'
+    networks:
+      - application
+
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: .
+      dockerfile: dockerfiles/php-fpm/Dockerfile
+    restart: always
+    environment:
+      PHP_MEMORY_LIMIT: "2048M"
+    expose:
+      - '9000'
+    networks:
+      - application
+
+  postgres:
+    build:
+      context: .
+      dockerfile: dockerfiles/db/Dockerfile
+    container_name: postgres
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
+    command: ["postgres", "-c", "log_statement=all"]
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: app
+    networks:
+      - application
+
+networks:
+  application:

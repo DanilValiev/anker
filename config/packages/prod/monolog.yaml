@@ -1,13 +1,9 @@
 monolog:
     handlers:
         stdout:
-            type:  stream
-            path:  "php://stdout"
-            level: info
-            formatter: "bank131.log_formatter.switchable"
-        deprecation:
             type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
+            handler: FilterHandler
+            formatter: "monolog.formatter.json"
         deprecation_filter:
             type: filter
             handler: deprecation

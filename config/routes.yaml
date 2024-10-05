@@ -1,3 +1,8 @@
+pretty_routes_name:
+    resource: 'src/Modules/Admin/Application/Api/Crud'
+    type: 'pretty_routes'
+    prefix: /admin
+
 controllers_easy_admin:
     resource: "../src/Modules/Admin/Application/Api/"
     type: annotation

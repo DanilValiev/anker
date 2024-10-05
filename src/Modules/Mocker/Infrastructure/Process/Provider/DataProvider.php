@@ -5,7 +5,7 @@ namespace App\Modules\Mocker\Infrastructure\Process\Provider;
 use App\Modules\Mocker\Domain\Process\Exceptions\Endpoints\EndpointDataNotFoundException;
 use App\Modules\Mocker\Domain\Process\Provider\DataProviderInterface;
 use App\Modules\Mocker\Infrastructure\ApplicationExpression\ApplicationExpression;
-use App\Shared\Domain\Entity\Mocker\EndpointData;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Data\EndpointData;
 use App\Shared\Domain\Model\ApplicationCommand;
 
 class DataProvider implements DataProviderInterface

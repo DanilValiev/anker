@@ -2,12 +2,19 @@ FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
     libicu-dev \
-&& rm -rf /var/lib/apt/lists/*
-
-RUN docker-php-ext-install intl
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
-RUN apt-get update && apt-get install -y \
     libpq-dev \
-&& docker-php-ext-install pdo_pgsql
+    unzip \
+    && docker-php-ext-install intl pdo_pgsql opcache \
+    && rm -rf /var/lib/apt/lists/*
+
+# Копируем исходный код приложения
+COPY . /var/www
+
+WORKDIR /var/www
+
+# Включаем кеширование с помощью opcache
+COPY dockerfiles/php-fpm/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+RUN chmod -R 777 var
+
+RUN php composer.phar install --optimize-autoloader

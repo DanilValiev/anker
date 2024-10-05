@@ -11,6 +11,15 @@
     "131/request-id-generator-bundle": {
         "version": "1.2.0"
     },
+    "agence-adeliom/easy-common-bundle": {
+        "version": "2.0.122"
+    },
+    "agence-adeliom/easy-editor-bundle": {
+        "version": "2.0.122"
+    },
+    "agence-adeliom/easy-fields-bundle": {
+        "version": "2.0.122"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -154,6 +163,9 @@
             "config/packages/monitor.yaml"
         ]
     },
+    "marcin-jozwikowski/easy-admin-pretty-urls": {
+        "version": "v2.9.2"
+    },
     "nelmio/api-doc-bundle": {
         "version": "4.9",
         "recipe": {
@@ -169,6 +181,18 @@
     },
     "nikic/php-parser": {
         "version": "v4.14.0"
+    },
+    "nyholm/psr7": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "4a8c0345442dcca1d8a2c65633dcf0285dd5a5a2"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -197,17 +221,14 @@
     "scienta/doctrine-json-functions": {
         "version": "5.1.0"
     },
-    "sensio/framework-extra-bundle": {
-        "version": "6.2",
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.12",
         "recipe": {
-            "repo": "github.com/symfony/recipes",
+            "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
-            "version": "5.2",
-            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
-        },
-        "files": [
-            "config/packages/sensio_framework_extra.yaml"
-        ]
+            "version": "1.2",
+            "ref": "e805aba9eff5372e2d149a9ff56566769e22819d"
+        }
     },
     "symfony/asset": {
         "version": "v6.0.7"

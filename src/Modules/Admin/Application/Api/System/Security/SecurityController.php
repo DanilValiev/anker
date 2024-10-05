@@ -2,7 +2,7 @@
 
 namespace App\Modules\Admin\Application\Api\System\Security;
 
-use App\Modules\Admin\Application\Api\Crud\Mocker\ScopesCrudController;
+use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\EndpointCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     public function __construct(
-        private AdminUrlGenerator $urlGenerator
+        private readonly AdminUrlGenerator $urlGenerator
     ) {}
     /**
      * @Route("/login", name="login")
@@ -20,13 +20,13 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirect($this->urlGenerator->setController(ScopesCrudController::class)->generateUrl());
+            return $this->redirect($this->urlGenerator->setController(EndpointCrudController::class)->generateUrl());
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('@EasyAdmin/page/login.html.twig', [
+        return $this->render('admin/login.html.twig', [
             'error' => $error,
             'last_username' => $lastUsername,
             'translation_domain' => 'admin',

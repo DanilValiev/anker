@@ -2,7 +2,7 @@
 
 namespace App\Shared\Domain\Entity\Proxy;
 
-use App\Shared\Domain\Entity\Mocker\Endpoint;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Model\ApplicationCommand;
 use App\Shared\Infrastructure\Doctrine\Repository\Proxy\ProxyLogRepository;
 use Doctrine\ORM\Mapping as ORM;

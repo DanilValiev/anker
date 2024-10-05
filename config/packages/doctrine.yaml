@@ -33,6 +33,11 @@ doctrine:
                 class: App\Shared\Infrastructure\RevisionManager\Filters\RevisionLoggableEntityDeletionFilter
                 enabled: true
         mappings:
+            System:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Domain/Entity/System'
+                prefix: 'App\Shared\Domain\Entity\System'
+                alias: System
             App:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Shared/Domain/Entity/Mocker'

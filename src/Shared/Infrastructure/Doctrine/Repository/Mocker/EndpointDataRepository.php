@@ -2,7 +2,7 @@
 
 namespace App\Shared\Infrastructure\Doctrine\Repository\Mocker;
 
-use App\Shared\Domain\Entity\Mocker\EndpointData;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Data\EndpointData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

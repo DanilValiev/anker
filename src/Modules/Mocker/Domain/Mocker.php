@@ -47,7 +47,7 @@ class Mocker
     public function process(Request $request, array $urlDetails): ?ApplicationCommand
     {
         $this->logger->info('Request process started!', ['url' => $request->getBaseUrl()]);
-        $applicationCommand = ApplicationCommand::class->create($request, $urlDetails);
+        $applicationCommand = ApplicationCommand::create($request, $urlDetails);
 
         try {
             $applicationCommand

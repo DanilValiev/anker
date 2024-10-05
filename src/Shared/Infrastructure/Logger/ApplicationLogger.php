@@ -23,6 +23,8 @@ class ApplicationLogger implements ProxyLoggerInterface, MockerLoggerInterface
     {
         $logEntity = ProcessLog::createFromApplicationRequest($applicationCommand);
         $this->processLogRepository->create($logEntity);
+
+        return $logEntity;
     }
 
     public function logProxy(ApplicationCommand $applicationCommand): ProxyLog

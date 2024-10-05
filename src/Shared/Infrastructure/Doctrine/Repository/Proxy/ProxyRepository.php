@@ -3,7 +3,7 @@
 namespace App\Shared\Infrastructure\Doctrine\Repository\Proxy;
 
 use App\Shared\Domain\Entity\Mocker\ApiScope;
-use App\Shared\Domain\Entity\Mocker\Endpoint;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Entity\Proxy\Proxy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

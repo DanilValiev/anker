@@ -3,27 +3,32 @@
 namespace App\Modules\Admin\Application\Api\Dashboard;
 
 
+use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\EndpointCrudController;
 use App\Modules\Admin\Application\Api\Crud\Mocker\ScopesCrudController;
 use App\Shared\Domain\Entity\Mocker\ApiScope;
-use App\Shared\Domain\Entity\Mocker\Endpoint;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Entity\Mocker\ProcessLog;
 use App\Shared\Domain\Entity\Proxy\Proxy;
 use App\Shared\Domain\Entity\Proxy\ProxyLog;
+use App\Shared\Domain\Entity\System\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use MarcinJozwikowski\EasyAdminPrettyUrls\Controller\PrettyDashboardController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class DashboardController extends AbstractDashboardController
+class DashboardController extends PrettyDashboardController
 {
     /**
      * @throws ContainerExceptionInterface
@@ -34,7 +39,7 @@ class DashboardController extends AbstractDashboardController
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
-        return $this->redirect($adminUrlGenerator->setController(ScopesCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(EndpointCrudController::class)->generateUrl());
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -51,6 +56,11 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Анкер - управляй мечтой!')
         ;
+    }
+
+    public function configureCrud(): Crud
+    {
+        return (parent::configureCrud())->addFormTheme('@EasyEditor/form/editor_widget.html.twig');
     }
 
     public function configureActions(): Actions
@@ -76,6 +86,26 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets()->addCssFile('css/admin/easyadmin_serenity_theme.css');
+    }
+
+//    public function configureAssets(): Assets
+//    {
+//        return (parent::configureAssets())
+//            ->addCssFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css')
+//            ->addCssFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/monokai.min.css')
+//            ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js')
+//            ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closebrackets.min.js')
+//            ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/lint/lint.min.js')
+//            ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/jsonlint/1.6.0/jsonlint.min.js')
+//            ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/lint/json-lint.min.js')
+//            ->addJsFile('js/vendor/autosize.min.js')
+//            ->addJsFile('js/admin/json-field.js')
+//            ;
+//    }
+
     public function configureMenuItems(): iterable
     {
         yield MenuItem::section('Мокер');
@@ -87,5 +117,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('▪ Шаблоны проксирования', '', Proxy::class);
         yield MenuItem::linkToCrud('▪ Логи запросов', '', ProxyLog::class);
 
+        yield MenuItem::section('Системное');
+        yield MenuItem::linkToCrud('▪ Пользователи', '', User::class);
     }
 }

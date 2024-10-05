@@ -4,8 +4,8 @@ namespace App\Shared\Domain\Model;
 
 use App\Modules\Proxy\Domain\Model\ProxyRequestDataTrait;
 use App\Shared\Domain\Entity\Mocker\ApiScope;
-use App\Shared\Domain\Entity\Mocker\Endpoint;
-use App\Shared\Domain\Entity\Mocker\EndpointData;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Data\EndpointData;
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Entity\Proxy\Proxy;
 use App\Shared\Domain\Model\Request\RequestUserDataTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,7 +141,7 @@ class ApplicationCommand
         return $this;
     }
 
-    public function create(Request $request, array $urlDetails): ApplicationCommand
+    public static function create(Request $request, array $urlDetails): ApplicationCommand
     {
         $body = json_decode($request->getContent(), true);
         if ($request->getMethod() == 'GET') {

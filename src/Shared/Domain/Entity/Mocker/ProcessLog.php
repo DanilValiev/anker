@@ -2,6 +2,7 @@
 
 namespace App\Shared\Domain\Entity\Mocker;
 
+use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Model\ApplicationCommand;
 use App\Shared\Infrastructure\Doctrine\Repository\Mocker\ProcessLogRepository;
 use Doctrine\DBAL\Types\Types;
@@ -38,7 +39,7 @@ class ProcessLog
     #[ORM\Column]
     private \DateTime $requestTime;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::TEXT)]
     private string $response;
 
     #[ORM\Column]
