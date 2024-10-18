@@ -25,7 +25,7 @@ class EndpointData
     private ?string $expression = null;
 
     #[ORM\Column]
-    private ?bool $active = true;
+    private ?bool $active = false;
 
     #[ORM\Column]
     private int $statusCode = 200;
@@ -33,7 +33,7 @@ class EndpointData
     #[ORM\ManyToOne(inversedBy: 'data')]
     private ?Endpoint $endpoint = null;
 
-    #[ORM\OneToMany(mappedBy: 'endpointData', targetEntity: EndpointDataResponseVariant::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'endpointData', targetEntity: ResponseVariant::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $responseVariants;
 
     public function __construct()
@@ -73,7 +73,7 @@ class EndpointData
         return $this->responseVariants;
     }
 
-    public function addResponseVariant(EndpointDataResponseVariant $responseVariant): self
+    public function addResponseVariant(ResponseVariant $responseVariant): self
     {
         if (!$this->responseVariants->contains($responseVariant)) {
             $this->responseVariants[] = $responseVariant;
@@ -83,7 +83,7 @@ class EndpointData
         return $this;
     }
 
-    public function removeResponseVariant(EndpointDataResponseVariant $responseVariant): self
+    public function removeResponseVariant(ResponseVariant $responseVariant): self
     {
         if ($this->responseVariants->removeElement($responseVariant)) {
             // set the owning side to null (unless already changed)
@@ -114,17 +114,22 @@ class EndpointData
 
     public function getData(): string
     {
-        /** @var EndpointDataResponseVariant $responseVariant */
+        /** @var ResponseVariant $responseVariant */
         foreach ($this->responseVariants as $responseVariant) {
             if ($responseVariant->isActive()) {
                 return $responseVariant->getData();
             }
         }
 
-        return $this->data;
+        return '';
     }
 
     public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function getActive(): ?bool
     {
         return $this->active;
     }

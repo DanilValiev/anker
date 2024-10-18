@@ -33,6 +33,11 @@ doctrine:
                 class: App\Shared\Infrastructure\RevisionManager\Filters\RevisionLoggableEntityDeletionFilter
                 enabled: true
         mappings:
+            File:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Domain/Entity/File'
+                prefix: 'App\Shared\Domain\Entity\File'
+                alias: App
             System:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Shared/Domain/Entity/System'

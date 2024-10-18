@@ -17,4 +17,7 @@ return [
     MarcinJozwikowski\EasyAdminPrettyUrls\EasyAdminPrettyUrlsBundle::class => ['all' => true],
     Adeliom\EasyCommonBundle\EasyCommonBundle::class => ['all' => true],
     Adeliom\EasyEditorBundle\EasyEditorBundle::class => ['all' => true],
+    Setono\EditorJSBundle\SetonoEditorJSBundle::class => ['all' => true],
+    Setono\EasyadminEditorjsBundle\SetonoEasyadminEditorjsBundle::class => ['all' => true],
+    League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
 ];

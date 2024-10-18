@@ -1,0 +1,2 @@
+setono_easyadmin_editorjs:
+  resource: "@SetonoEasyadminEditorjsBundle/Resources/config/routes.yaml"

@@ -3,8 +3,8 @@ FROM php:8.1-fpm
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libpq-dev \
-    unzip \
-    && docker-php-ext-install intl pdo_pgsql opcache \
+    unzip git \
+    && docker-php-ext-install intl pdo_pgsql opcache bcmath\
     && rm -rf /var/lib/apt/lists/*
 
 # Копируем исходный код приложения

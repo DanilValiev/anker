@@ -5,6 +5,7 @@ namespace App\Modules\Admin\Application\Api\Dashboard;
 
 use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\EndpointCrudController;
 use App\Modules\Admin\Application\Api\Crud\Mocker\ScopesCrudController;
+use App\Shared\Domain\Entity\File\File;
 use App\Shared\Domain\Entity\Mocker\ApiScope;
 use App\Shared\Domain\Entity\Mocker\Endpoint\Endpoint;
 use App\Shared\Domain\Entity\Mocker\ProcessLog;
@@ -112,6 +113,9 @@ class DashboardController extends PrettyDashboardController
         yield MenuItem::linkToCrud('▪ Неймспейсы', '', ApiScope::class);
         yield MenuItem::linkToCrud('▪ Эндпойнты', '', Endpoint::class);
         yield MenuItem::linkToCrud('▪ Логи запросов', '', ProcessLog::class);
+
+        yield MenuItem::section('Статика');
+        yield MenuItem::linkToCrud('Файлы', '', File::class);
 
         yield MenuItem::section('Прокси');
         yield MenuItem::linkToCrud('▪ Шаблоны проксирования', '', Proxy::class);

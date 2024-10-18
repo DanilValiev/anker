@@ -8,8 +8,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EndpointDataResponseVariantRepository::class)]
+#[ORM\Table(name: 'endpoint_data_response_variant')]
 #[ORM\HasLifecycleCallbacks]
-class EndpointDataResponseVariant
+class ResponseVariant
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,7 +32,7 @@ class EndpointDataResponseVariant
         return $this->id;
     }
 
-    public function setId(?int $id): EndpointDataResponseVariant
+    public function setId(?int $id): ResponseVariant
     {
         $this->id = $id;
         return $this;
@@ -42,7 +43,7 @@ class EndpointDataResponseVariant
         return $this->data;
     }
 
-    public function setData($data): EndpointDataResponseVariant
+    public function setData($data): ResponseVariant
     {
         $this->data = $data['json'] ?? $data;
         return $this;
@@ -63,7 +64,7 @@ class EndpointDataResponseVariant
         return $this->active;
     }
 
-    public function setActive(bool $active): EndpointDataResponseVariant
+    public function setActive(bool $active): ResponseVariant
     {
         $this->active = $active;
         return $this;
@@ -74,7 +75,7 @@ class EndpointDataResponseVariant
         return $this->endpointData;
     }
 
-    public function setEndpointData(?EndpointData $endpointData): EndpointDataResponseVariant
+    public function setEndpointData(?EndpointData $endpointData): ResponseVariant
     {
         $this->endpointData = $endpointData;
         return $this;

@@ -11,7 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class EndpointDataCrudController extends AbstractCrudController
+class DataCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -25,11 +25,11 @@ class EndpointDataCrudController extends AbstractCrudController
             TextField::new('name')->setLabel('Название')->setHelp('Название ответа (ни на что не влияет)')->setColumns(7),
             TextField::new('expression')->setLabel('Условие')->setHelp('Условие где && -> это и || -> это или =/!= -> соответственно. Например: (key1 = true || key2 = false) && key3 = true')->setColumns(7)->hideOnIndex(),
             IntegerField::new('statusCode')->setLabel('Статус код')->setHelp('HTTP код ответа')->setColumns(7)->setEmptyData(200),
-            BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли вариант ответа')->setColumns(7)->setEmptyData(true),
+            BooleanField::new('active')->setLabel('Активен')->setHelp('Активен ли вариант ответа')->setColumns(7),
             CollectionField::new('responseVariants')
                 ->allowAdd(true)
                 ->allowDelete(true)
-                ->useEntryCrudForm(EndpointDataResponseVariantCrudController::class)
+                ->useEntryCrudForm(ResponseVariantCrudController::class)
                 ->setLabel('Варианты ответов')
                 ->setHelp('Добавляйте или удаляйте варианты ответов. Только один вариант может быть активен.')
                 ->setFormTypeOptions([

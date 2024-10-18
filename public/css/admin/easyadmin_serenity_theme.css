@@ -68,7 +68,7 @@ article.content {
 
 .ea-dark-scheme, .ea-light-scheme {
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-image: url(bg.jpg);
     --body-bg: #00000000;
     --responsive-header-bg: var(--scheme-color-bg-strongaccent);

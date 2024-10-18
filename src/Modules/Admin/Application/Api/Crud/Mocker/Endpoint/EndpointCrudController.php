@@ -2,8 +2,8 @@
 
 namespace App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint;
 
-use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\Data\EndpointDataCrudController;
-use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\Parameters\EndpointParametersCrudController;
+use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\Data\DataCrudController;
+use App\Modules\Admin\Application\Api\Crud\Mocker\Endpoint\Parameters\ParametersCrudController;
 use App\Modules\Admin\Application\Api\Crud\Mocker\ScopesCrudController;
 use App\Modules\Admin\Application\Api\Crud\Proxy\ProxyCrudController;
 use App\Modules\Admin\Application\Api\Crud\Proxy\ProxyLogCrudController;
@@ -96,7 +96,7 @@ class EndpointCrudController extends AbstractCrudController
         if ($pageName !== Crud::PAGE_NEW) {
             $fields[] = FormField::addTab('Параметры');
             $fields[] = CollectionField::new('parameters'
-            )->useEntryCrudForm(EndpointParametersCrudController::class)
+            )->useEntryCrudForm(ParametersCrudController::class)
                 ->setColumns(13)->setHelp('Перечень параметров, ожидаемых в данном запросе')
                 ->setLabel('Параметры запроса')
                 ->hideOnIndex()
@@ -106,7 +106,7 @@ class EndpointCrudController extends AbstractCrudController
 
             $fields[] = FormField::addTab('Возвращаемые значения');
             $fields[] = CollectionField::new('data')
-                ->useEntryCrudForm(EndpointDataCrudController::class)
+                ->useEntryCrudForm(DataCrudController::class)
                 ->setColumns(13)
                 ->setHelp('Варианты ответов')
                 ->setLabel('Ответы')
